@@ -112,7 +112,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
     sku       = "server"
     version   = "latest"
   }
-  custom_data = base64encode(file("cloud-init.txt"))
+  custom_data = base64encode(file("../cloud-init.txt"))
 }
 
 # 랜덤 문자열 생성 (도메인 이름에 사용)
