@@ -45,3 +45,9 @@
 - terraform destroy -auto-approve
 
 
+# 프로젝트 설명
+- vm-create : VM 생성 (신규 리소스)
+- vm-create-exist-resource : VM 생성 (virtualNet, SubNet, Resource Group은 기존에 생성)
+
+
+
