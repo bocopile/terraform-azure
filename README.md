@@ -1,4 +1,5 @@
-# Azure Login
+# 사전 준비사항
+## Azure Login
 1. Azure CLI 로그인
     - az login
 2. Azure Subscription 설정
@@ -18,3 +19,29 @@
         - appId → client_id
         - password → client_secret
         - tenant → tenant_id
+
+5. 변수 선언
+   export ARM_CLIENT_ID="your_client_id"
+   export ARM_CLIENT_SECRET="your_client_secret"
+   export ARM_TENANT_ID="your_tenant_id"
+   export ARM_SUBSCRIPTION_ID="your_subscription_id"
+
+## pub 생성
+- 기존 Azure에서 VM 생성시 pem 파일을 이미 만들었을 경우 아래 절차대로 변경이 필요하다.
+-  ssh-keygen -y -f /Users/bokhoshin/azure/bocopile-azure-key.pem > /Users/bokhoshin/azure/bocopile-azure-key.pub
+
+# Terraform 실행
+
+## Terraform 초기화
+- terraform init
+
+## 실행 계획 확인
+- terraform plan
+
+## 리소스 생성
+- terraform apply -auto-approve
+
+## 리소스 삭제 
+- terraform destroy -auto-approve
+
+
