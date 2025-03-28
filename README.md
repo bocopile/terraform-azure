@@ -48,6 +48,7 @@
 # 프로젝트 설명
 - vm-create : VM 생성 (신규 리소스)
 - vm-create-exist-resource : VM 생성 (virtualNet, SubNet, Resource Group은 기존에 생성)
+- vm-create-compute-gallary : VM OS image를 Azure compute Gallary에서 가져 와서 생
 
 
 
