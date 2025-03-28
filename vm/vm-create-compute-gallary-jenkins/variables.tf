@@ -37,18 +37,18 @@ variable "vm_version" {
 variable "vm_image_name" {
   description = "Azure VM image name"
   type        = string
-  default     = "sample-vm-ubuntu-24"
+  default     = "jenkins_vm_ubuntu_24"
 }
 
 variable "vm_gallery_name" {
   description = "Azure Gallery Name"
   type        = string
-  default     = "sample"
+  default     = "devops"
 }
 
 variable "vm_resource_group_name" {
   description = "Azure Gallery resource group"
   type        = string
-  default     = "sample-group"
+  default     = "devops-resource"
 }
 
