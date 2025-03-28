@@ -1,3 +1,14 @@
+terraform {
+  required_version = ">= 1.11.2"   # Terraform 최소 버전
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = ">= 3.0.0"         # AzureRM provider 최소 버전 (예시)
+    }
+  }
+}
+
+
 provider "azurerm" {
   features {}
 }
