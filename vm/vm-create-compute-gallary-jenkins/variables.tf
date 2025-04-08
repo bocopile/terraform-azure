@@ -13,7 +13,7 @@ variable "location" {
 variable "ssh_public_key_path" {
   description = "Path to SSH Public Key"
   type        = string
-  default     = "/Users/bokhoshin/azure/bocopile-azure-key.pub"
+  default     = "~/azure/bocopile-azure-key.pub"
 }
 
 variable "admin_username" {
