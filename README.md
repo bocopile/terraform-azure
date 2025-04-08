@@ -53,7 +53,7 @@
 - terraform apply -auto-approve
 
 ## 리소스 삭제 
-- terraform destroy -auto-approveterraform destroy -auto-approve
+- terraform destroy -auto-approve
 
 
 # 프로젝트 설명
