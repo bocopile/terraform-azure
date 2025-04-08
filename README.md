@@ -20,11 +20,22 @@
         - password → client_secret
         - tenant → tenant_id
 
-5. 변수 선언
-   export ARM_CLIENT_ID="$(az ad sp list --display-name "terraform-sp" --query "[].appId" -o tsv)"
-   export ARM_CLIENT_SECRET="your_client_secret"
-   export ARM_TENANT_ID="$(az account show --query "tenantId" -o tsv)"
-   export ARM_SUBSCRIPTION_ID="$(az account show --query id -o tsv)"
+   5. 변수 선언
+      ```bash
+      cat << EOF >> ~/.zshrc
+
+      export ARM_CLIENT_ID="$(az ad sp list --display-name "terraform-sp" --query "[].appId" -o tsv)"
+      export ARM_CLIENT_SECRET="${password}"  # 해당 부분 수정 필요
+      export ARM_TENANT_ID="$(az account show --query "tenantId" -o tsv)"
+      export ARM_SUBSCRIPTION_ID="$(az account show --query id -o tsv)"
+   
+      EOF
+      source ~/.zshrc
+      echo $ARM_CLIENT_ID $ARM_CLIENT_SECRET $ARM_TENANT_ID $ARM_SUBSCRIPTION_ID
+      tail -n 10 ~/.zshrc
+       ```
+
+
 
 ## pub 생성
 - 기존 Azure에서 VM 생성시 pem 파일을 이미 만들었을 경우 아래 절차대로 변경이 필요하다.
