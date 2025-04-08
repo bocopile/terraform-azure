@@ -1,7 +1,7 @@
-variable "resource_group_name" {
+variable "resource" {
   description = "Azure Resource Group Name"
   type        = string
-  default     = "jenkins-group"
+  default     = "jenkins"
 }
 
 variable "location" {
@@ -31,7 +31,7 @@ variable "vm_type" {
 variable "vm_version" {
   description = "Azure VM version"
   type        = string
-  default     = "1.0.0"
+  default     = "1.0.1"
 }
 
 variable "vm_image_name" {

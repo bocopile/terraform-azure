@@ -13,19 +13,19 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = var.resource_group_name
+  name     = "${var.resource}-group"
   location = var.location
 }
 
 resource "azurerm_virtual_network" "vnet" {
-  name                = "jenkins-vnet"
+  name                = "${var.resource}-vnet"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   address_space       = ["10.0.0.0/16"]
 }
 
 resource "azurerm_subnet" "subnet" {
-  name                 = "jenkins-subnet"
+  name                 = "${var.resource}-subnet"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.0.1.0/24"]
@@ -33,15 +33,15 @@ resource "azurerm_subnet" "subnet" {
 
 # 공용 IP 주소 리소스 생성
 resource "azurerm_public_ip" "public_ip" {
-  name                = "jenkins-public-ip"
+  name                = "${var.resource}-public-ip"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Static"
-  domain_name_label   = "samplevm${random_string.unique_id.result}"
+  domain_name_label   = "${var.resource}vm${random_string.unique_id.result}"
 }
 
 resource "azurerm_network_security_group" "nsg" {
-  name                = "jenkins-nsg"
+  name                = "${var.resource}-nsg"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -84,7 +84,7 @@ resource "azurerm_network_security_group" "nsg" {
 
 # 네트워크 인터페이스에 공용 IP 연결
 resource "azurerm_network_interface" "nic" {
-  name                = "jenkins-nic"
+  name                = "${var.resource}-nic"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -107,7 +107,7 @@ resource "azurerm_network_interface_security_group_association" "nic_nsg_associa
   network_interface_id      = azurerm_network_interface.nic.id
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
-ㅊㅊㅊ
+
 
 # [추가] Azure Compute Gallery 이미지 데이터 소스
 data "azurerm_shared_image_version" "jenkins_image" {
@@ -120,7 +120,7 @@ data "azurerm_shared_image_version" "jenkins_image" {
 
 # 가상 머신 리소스 (공유 이미지 사용)
 resource "azurerm_linux_virtual_machine" "vm" {
-  name                = "jenkins-vm"
+  name                = "${var.resource}-vm"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   size                = var.vm_type
