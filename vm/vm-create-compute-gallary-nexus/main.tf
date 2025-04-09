@@ -107,7 +107,7 @@ resource "azurerm_network_interface_security_group_association" "nic_nsg_associa
   network_interface_id      = azurerm_network_interface.nic.id
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
-ㅊㅊㅊ
+
 
 # [추가] Azure Compute Gallery 이미지 데이터 소스
 data "azurerm_shared_image_version" "jenkins_image" {
