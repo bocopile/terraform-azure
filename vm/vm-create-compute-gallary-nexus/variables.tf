@@ -1,7 +1,7 @@
 variable "resource" {
   description = "Azure Resource Group Name"
   type        = string
-  default     = "jenkins"
+  default     = "nexus"
 }
 
 variable "location" {
