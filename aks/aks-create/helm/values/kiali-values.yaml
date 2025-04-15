@@ -1,0 +1,24 @@
+deployment:
+  ingress_enabled: true
+  ingress_class_name: nginx
+  ingress_annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-http01"
+  ingress_hosts:
+    - kiali.bocopile.io
+  ingress_tls:
+    - secretName: kiali-tls
+      hosts:
+        - kiali.bocopile.io
+
+jaeger:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-http01"
+    hosts:
+      - jaeger.bocopile.io
+    tls:
+      - secretName: jaeger-tls
+        hosts:
+          - jaeger.bocopile.io

@@ -1,0 +1,12 @@
+server:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-http01"
+    hosts:
+      - argocd.bocopile.io
+    tls:
+      - secretName: argocd-tls
+        hosts:
+          - argocd.bocopile.io
