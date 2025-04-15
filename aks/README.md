@@ -2,17 +2,20 @@
 
 ```shell
 terraform-aks/
-├── main.tf                       # Azure Provider, AKS 클러스터 생성, helm 모듈 호출, kube_config 출력
+├── main.tf                       # Azure Provider, AKS 클러스터 생성, helm 모듈 호출
+├── main.tf                       # kube_config 출력
 ├── variables.tf                  # 변수 정의 (예: location, cluster_name 등)
-├── terraform.tfvars              # 변수 값 설정 (예: subscription_id 등)
-
 ├── helm/                         # Helm 모듈로 정의된 디렉토리
 │   ├── main.tf                   # Helm provider 설정 + Helm 리소스 (nginx, cert-manager, argocd 등)
 │   ├── variables.tf              # helm 모듈에서 사용할 변수 정의 (kube_config, cluster_name 등)
-
+│   ├── argocd.tf                 # argocd 추가
+│   ├── cert-manager.tf           # cert-manager 추가
+│   ├── ingress-nginx.tf          # ingress 추가
+│   ├── ingress-nginx.tf          # istio 추가
+│   ├── prometheus-grafana.tf     # prometheus, grafana
+│   ├── variables.tf              # helm 모듈에서 사용할 변수 정의 (kube_config, cluster_name 등)
 │   ├── manifests/                # YAML 리소스 수동 적용용 (예: cert-manager용 ClusterIssuer)
 │   │   └── cluster-issuer.yaml   # Let's Encrypt HTTP01 방식 ClusterIssuer
-
 │   ├── values/                   # Helm values.yaml 설정 파일 디렉토리
 │   │   ├── argocd-values.yaml       # ArgoCD Helm values (Ingress + TLS 설정 포함)
 │   │   ├── prometheus-values.yaml  # Prometheus & Grafana values (Ingress + TLS + Dashboard)
@@ -53,7 +56,16 @@ terraform-aks/
 
 ---
 
+
+
+
 # 작업 절차
+
+## 권한 부여
+```shell
+# 현재 권한 확인
+echo $ARM_CLIENT_ID
+```
 ## 초기화
 ```shell
 terraform init
@@ -62,6 +74,12 @@ terraform init
 ```shell
 terraform plan
 ```
+
+## 리소스 그룹 및 DNS Zone 우선 생성
+```shell
+terraform apply -target=azurerm_resource_group.aks_rg -target=azurerm_dns_zone.main
+```
+
 ## 클러스터 생성
 ```shell
 terraform apply -auto-approve
@@ -69,7 +87,7 @@ terraform apply -auto-approve
 
 ## 클러스터 접속
 ```shell
-az aks get-credentials --resource-group rg-aks-koreasouth --name aks-koreasouth-cluster
+az aks get-credentials --resource-group rg-aks-bocopile --name aks-bocopile-cluster
 kubectl get nodes
 ```
 

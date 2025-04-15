@@ -23,6 +23,11 @@ resource "azurerm_resource_group" "aks_rg" {
   location = "Korea South"
 }
 
+resource "azurerm_dns_zone" "main" {
+  name                = "bocopile.io"
+  resource_group_name = azurerm_resource_group.aks_rg.name
+}
+
 resource "azurerm_kubernetes_cluster" "aks" {
   name                = "aks-bocopile-cluster"
   location            = azurerm_resource_group.aks_rg.location
@@ -47,14 +52,23 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 }
 
-output "kube_config" {
-  value     = azurerm_kubernetes_cluster.aks.kube_config_raw
-  sensitive = true
+resource "azurerm_role_assignment" "external_dns_dns_zone" {
+  scope                = azurerm_dns_zone.main.id
+  role_definition_name = "DNS Zone Contributor"
+  principal_id         = azurerm_kubernetes_cluster.aks.identity[0].principal_id
+
+  depends_on = [
+    azurerm_resource_group.aks_rg,
+    azurerm_dns_zone.main
+  ]
 }
+
 
 module "helm_apps" {
   source         = "./helm"
   kube_config    = azurerm_kubernetes_cluster.aks.kube_config_raw
   cluster_name   = azurerm_kubernetes_cluster.aks.name
   resource_group = azurerm_resource_group.aks_rg.name
+
 }
+

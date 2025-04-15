@@ -32,7 +32,9 @@ resource "helm_release" "istio_ingress" {
   ]
 
   depends_on = [
-    helm_release.ingress_nginx,  # nginx가 먼저 설치된 후 실행
+    helm_release.ingress_nginx,
+    helm_release.external_dns,
+    helm_release.cert_manager,
     helm_release.istiod
   ]
 }
