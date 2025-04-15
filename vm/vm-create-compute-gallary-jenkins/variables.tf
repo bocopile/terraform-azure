@@ -31,7 +31,7 @@ variable "vm_type" {
 variable "vm_version" {
   description = "Azure VM version"
   type        = string
-  default     = "1.0.1"
+  default     = "1.0.2"
 }
 
 variable "vm_image_name" {
