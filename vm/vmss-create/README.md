@@ -49,7 +49,7 @@
 - Load Balancer Standard SKU 사용
 - NAT Pool 설정:
     - `frontend_port_start = 50000`
-    - `frontend_port_end = 50009` (10개 포트 확보)
+    - `frontend_port_end = 50009` (10개 포트 확보, 롤링 업데이트시 예비 포트가 존재해야함)
 - Backend Pool에 VMSS 인스턴스 자동 연결
 
 ### Azure Files (storage.tf)
@@ -74,12 +74,22 @@
     ```
 2. Terraform Plan (변경사항 확인)
     ```bash
-    terraform plan
+    terraform plan -var="subscription_id=$ARM_SUBSCRIPTION_ID"
     ```
 3. Terraform Apply (배포 진행)
     ```bash
-    terraform apply
+    terraform apply -auto-approve -var="subscription_id=$ARM_SUBSCRIPTION_ID"
+
     ```
+   
+4. 매칭된 포트 조회
+   ```bash
+   az vmss nic list \
+   --resource-group <your-resource-group> \
+   --vmss-name <your-vmss-name> \
+   --query '[].{instance:virtualMachine.id, frontendPort:ipConfigurations[0].loadBalancerInboundNatRules[0].frontendPort}' \
+   --output table
+   ```
 
 ---
 
